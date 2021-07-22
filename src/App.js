@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Header from "./Components/Header";
+import Champions from "./Champions";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Home from "./Home";
+import Summoner from "./Summoner";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/champions" component={Champions} />
+      {/* <Route exact path="/summoner" component={Summoner} /> */}
+      <Route exact path="/summoners/:summoner" component={Summoner} />
+    </Router>
   );
 }
 

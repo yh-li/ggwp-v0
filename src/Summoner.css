@@ -1,0 +1,22 @@
+.summoner_header {
+  display: flex;
+}
+.summoner_mastery {
+  background-color: goldenrod;
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.summoner_mastery_champion {
+  padding: 10px;
+}
+.summoner {
+  width: 80vw;
+  min-width: 400px;
+  max-width: 1500px;
+  background-color: gainsboro;
+  margin: auto;
+  margin-top: 10px;
+}

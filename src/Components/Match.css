@@ -1,0 +1,9 @@
+.match {
+  width: inherit;
+  display: flex;
+  border: 1px solid gray;
+  margin: 10px auto;
+}
+.match_player_icons {
+  display: flex;
+}
