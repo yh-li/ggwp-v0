@@ -15,9 +15,10 @@ function Summoner(props) {
   const [accountId, setAccoundId] = useState("");
   const [level, setLevel] = useState(1);
   const [avatar, setAvatar] = useState("");
-  const [summoner, setSummoner] = useState();
+  const [summonerCaseName, setSummonerCaseName] = useState();
   const [mastery, setMastery] = useState([]);
   const [matches, setMatches] = useState([]);
+
   const setSummonerByName = async (summonerName) => {
     try {
       const apiFetch = await fetch(
@@ -29,6 +30,7 @@ function Summoner(props) {
       );
       const summonerJSON = await apiFetch.json();
       //console.log(summonerJSON.id);
+      setSummonerCaseName(summonerJSON.name);
       setSummonerId(summonerJSON.id);
       setAccoundId(summonerJSON.accountId);
       setLevel(summonerJSON.summonerLevel);
@@ -40,7 +42,6 @@ function Summoner(props) {
           summonerJSON.profileIconId +
           ".png"
       );
-      setSummoner(summonerJSON);
       setFound(true);
     } catch (error) {
       console.log("Cannot fetch or parse summoner");
@@ -54,7 +55,7 @@ function Summoner(props) {
   }, []);
   useEffect(() => {
     if (summonerId) {
-      console.log(summonerId);
+      //console.log(summonerId);
       fetch(
         proxyurl +
           "https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" +
@@ -64,14 +65,14 @@ function Summoner(props) {
       )
         .then((response) => response.json())
         .then((res) => {
-          console.log(res[0]);
+          //console.log(res[0]);
           setMastery(res.splice(0, 10));
         });
     }
   }, [summonerId]);
   useEffect(() => {
     //get matches
-    console.log(accountId);
+    //console.log(accountId);
     fetch(
       proxyurl +
         "https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/" +
@@ -81,7 +82,7 @@ function Summoner(props) {
     )
       .then((response) => response.json())
       .then((res) => {
-        console.log(res.matches[0]);
+        //console.log(res.matches[0]);
         setMatches(res.matches.splice(0, 10));
       });
   }, [accountId]);
@@ -92,10 +93,10 @@ function Summoner(props) {
         {found ? (
           <div>
             <div className="summoner_header">
-              <Avatar summoner={summonerName} avatarUrl={avatar} />
+              <Avatar summoner={summonerCaseName} avatarUrl={avatar} />
               <div className="summoner_header_stats">
                 <p>{level}</p>
-                <p>{summonerName}</p>
+                <p>{summonerCaseName}</p>
               </div>
             </div>
           </div>
@@ -120,7 +121,7 @@ function Summoner(props) {
           {matches ? (
             matches.map((match) => (
               <Match
-                summonerName={summonerName}
+                summonerName={summonerCaseName}
                 matchId={match.gameId}
                 key={match.gameId}
               />

@@ -4,6 +4,51 @@
   border: 1px solid gray;
   margin: 10px auto;
 }
+.match_result {
+  width: 10%;
+}
+.match_player {
+  width: 15%;
+}
 .match_player_icons {
   display: flex;
+}
+.match_kda {
+  width: 15%;
+}
+.match_stats {
+  width: 15%;
+}
+.match_items {
+  display: flex;
+  width: 20%;
+}
+.match_equip_top,
+.match_equip_bottom {
+  display: flex;
+}
+.img_container {
+  background-color: gray;
+  width: 40px;
+  height: 40px;
+  margin: 3px;
+  border-radius: 5px;
+}
+.equip_img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+.match_teams {
+  display: flex;
+  width: 25%;
+}
+.match_teams_player {
+  display: flex;
+}
+.match_teams_player_name {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

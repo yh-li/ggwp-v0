@@ -10,27 +10,37 @@ import Avatar from "@material-ui/core/Avatar";
 const proxyurl = "https://api.allorigins.win/raw?url=";
 function Match({ matchId, summonerName }) {
   //fetch match!!
-  const [match, setMatch] = useState();
-  const [win, setWin] = useState();
-  const [duration, setDuration] = useState();
-  const [championId, setChampionId] = useState();
+  const [allies, setAllies] = useState();
+  const [assists, setAssists] = useState();
   const [championIcon, setChampionIcon] = useState();
+  const [championId, setChampionId] = useState();
   const [championName, setChampionName] = useState();
+  const [cs, setCs] = useState();
+  const [deaths, setDeaths] = useState();
+  const [duration, setDuration] = useState();
+  const [enemies, setEnemies] = useState();
+  const [items, setItems] = useState([]);
+  const [kills, setKills] = useState();
+  const [level, setLevel] = useState();
   const [majorRune, setMajorRune] = useState();
-  const [majorRuneSys, setMajorRuneSys] = useState();
   const [majorRuneIcon, setMajorRuneIcon] = useState();
-  const [subRuneSys, setSubRuneSys] = useState();
-  const [subRuneIcon, setSubRuneIcon] = useState();
+  const [majorRuneSys, setMajorRuneSys] = useState();
+  const [match, setMatch] = useState();
+  const [ornament, setOrnament] = useState();
   const [spellD, setSpellD] = useState();
   const [spellDIcon, setSpellDIcon] = useState();
   const [spellF, setSpellF] = useState();
   const [spellFIcon, setSpellFIcon] = useState();
-  const [kills, setKills] = useState();
-  const [assists, setAssists] = useState();
-  const [deaths, setDeaths] = useState();
-  const [level, setLevel] = useState();
-  const [cs, setCs] = useState();
+  const [subRuneIcon, setSubRuneIcon] = useState();
+  const [subRuneSys, setSubRuneSys] = useState();
+  const [team, setTeam] = useState();
+  const [team100Champ, setTeam100Champ] = useState();
+  const [team100Kills, setTeam100Kills] = useState();
+  const [team200Champ, setTeam200Champ] = useState();
+  const [team200Kills, setTeam200Kills] = useState();
   const [totalKills, setTotalKills] = useState();
+  const [win, setWin] = useState();
+
   useEffect(() => {
     fetch(
       proxyurl +
@@ -41,16 +51,36 @@ function Match({ matchId, summonerName }) {
     )
       .then((response) => response.json())
       .then((res) => {
-        console.log(res);
         setMatch(res);
       });
   }, []);
   useEffect(() => {
+    const team100 = [];
+    const team200 = [];
+    var team100KillsVar = 0;
+    var team200KillsVar = 0;
     if (match) {
       for (let i = 0; i < 10; i++) {
+        //console.log(match.participants[i]);
+        if (match.participants[i].teamId === 100) {
+          //fetch champions icon url
+          team100.push({
+            summonerName: match.participantIdentities[i].player.summonerName,
+            championId: match.participants[i].championId,
+          });
+          team100KillsVar += match.participants[i].stats.kills;
+        } else {
+          team200.push({
+            summonerName: match.participantIdentities[i].player.summonerName,
+            championId: match.participants[i].championId,
+          });
+          team200KillsVar += match.participants[i].stats.kills;
+        }
         if (
-          match.participantIdentities[i].player.summonerName === summonerName
+          match.participantIdentities[i].player.summonerName.toUpperCase() ===
+          summonerName.toUpperCase()
         ) {
+          setTeam(match.participants[i].teamId);
           setWin(
             match.participants[match.participantIdentities[i].participantId - 1]
               .stats.win
@@ -92,9 +122,90 @@ function Match({ matchId, summonerName }) {
             match.participants[match.participantIdentities[i].participantId - 1]
               .stats.deaths
           );
-          break;
+          setLevel(
+            match.participants[match.participantIdentities[i].participantId - 1]
+              .stats.champLevel
+          );
+          setCs(
+            match.participants[i].stats.totalMinionsKilled +
+              match.participants[i].stats.neutralMinionsKilled
+          );
+          const itemUrls = [];
+          for (let j = 0; j < 6; j++) {
+            const itemKey = "item".concat(j.toString());
+            const itemId =
+              match.participants[
+                match.participantIdentities[i].participantId - 1
+              ].stats[itemKey];
+            if (itemId !== 0) {
+              itemUrls.push(
+                "https://ddragon.leagueoflegends.com/cdn/" +
+                  version +
+                  "/img/item/" +
+                  itemId.toString() +
+                  ".png"
+              );
+            } else {
+              itemUrls.push("");
+            }
+          }
+          setItems(itemUrls);
+          setOrnament(
+            "https://ddragon.leagueoflegends.com/cdn/" +
+              version +
+              "/img/item/" +
+              match.participants[i].stats.item6.toString() +
+              ".png"
+          );
         }
       }
+
+      //get champion icon urls
+      const team100Ids = team100.map((champion) =>
+        champion.championId.toString()
+      );
+      const team200Ids = team200.map((champion) =>
+        champion.championId.toString()
+      );
+      fetch(
+        proxyurl +
+          "http://ddragon.leagueoflegends.com/cdn/" +
+          version +
+          "/data/en_US/champion.json"
+      )
+        .then((response) => response.json())
+        .then((championsJSON) => {
+          for (let champion in championsJSON.data) {
+            if (team100Ids.includes(championsJSON.data[champion].key)) {
+              team100.filter(
+                (c) =>
+                  c.championId.toString() === championsJSON.data[champion].key
+              )[0].iconUrl =
+                "https://ddragon.leagueoflegends.com/cdn/" +
+                version +
+                "/img/champion/" +
+                champion +
+                ".png";
+              //console.log(team100);
+            }
+            if (team200Ids.includes(championsJSON.data[champion].key)) {
+              team200.filter(
+                (c) =>
+                  c.championId.toString() === championsJSON.data[champion].key
+              )[0].iconUrl =
+                "https://ddragon.leagueoflegends.com/cdn/" +
+                version +
+                "/img/champion/" +
+                champion +
+                ".png";
+            }
+          }
+          setTeam100Champ(team100);
+          setTeam200Champ(team200);
+          setTeam100Kills(team100KillsVar);
+          setTeam200Kills(team200KillsVar);
+        });
+
       var durationString = moment
         .utc(match.gameDuration * 1000)
         .format("HH:mm:ss");
@@ -115,9 +226,27 @@ function Match({ matchId, summonerName }) {
       );
       durationString = durationString.concat("s");
       setDuration(durationString);
-      //console.log(durationString);
     }
   }, [match]);
+  useEffect(() => {
+    if (
+      team &&
+      team100Champ &&
+      team200Champ &&
+      team100Kills !== null &&
+      team200Kills !== null
+    ) {
+      if (team === 100) {
+        setTotalKills(team100Kills);
+        setAllies(team100Champ);
+        setEnemies(team200Champ);
+      } else {
+        setTotalKills(team200Kills);
+        setAllies(team200Champ);
+        setEnemies(team100Champ);
+      }
+    }
+  }, [team, team100Champ, team200Champ, team100Kills, team200Kills]);
   useEffect(() => {
     if (championId) {
       fetch(
@@ -130,7 +259,6 @@ function Match({ matchId, summonerName }) {
         .then((championsJSON) => {
           for (let champion in championsJSON.data) {
             if (championsJSON.data[champion].key === championId.toString()) {
-              //console.log(`${champion}:${championsJSON.data[champion].key}`);
               setChampionIcon(
                 "https://ddragon.leagueoflegends.com/cdn/" +
                   version +
@@ -144,8 +272,50 @@ function Match({ matchId, summonerName }) {
         });
     }
   }, [championId]);
+  //find all allies and enemies icons
+  /*   useEffect(() => {
+    if (allies && enemies) {
+      const alliesIds = allies.map((ally) => ally.championId.toString());
+      const enemiesIds = enemies.map((enemy) => enemy.championId.toString());
+      fetch(
+        proxyurl +
+          "http://ddragon.leagueoflegends.com/cdn/" +
+          version +
+          "/data/en_US/champion.json"
+      )
+        .then((response) => response.json())
+        .then((championsJSON) => {
+          const alliesUrls = [];
+          const enemiesUrls = [];
+          for (let champion in championsJSON.data) {
+            if (alliesIds.includes(championsJSON.data[champion].key)) {
+              alliesUrls.push(
+                "https://ddragon.leagueoflegends.com/cdn/" +
+                  version +
+                  "/img/champion/" +
+                  champion +
+                  ".png"
+              );
+            } else if (enemiesIds.includes(championsJSON.data[champion].key)) {
+              enemiesUrls.push(
+                "https://ddragon.leagueoflegends.com/cdn/" +
+                  version +
+                  "/img/champion/" +
+                  champion +
+                  ".png"
+              );
+            }
+          }
+          setAllyIcons(alliesUrls);
+          setEnemyIcons(enemiesUrls);
+        });
+      console.log(allies);
+      console.log(allyIcons);
+    }
+  }, [allies, enemies]); */
   useEffect(() => {
     if (majorRune && subRuneSys) {
+      console.log(majorRune);
       fetch(
         "https://ddragon.leagueoflegends.com/cdn/" +
           version +
@@ -256,7 +426,80 @@ function Match({ matchId, summonerName }) {
       ) : (
         <div></div>
       )}
-      <div className="match_stats"></div>
+      <div className="match_stats">
+        <div className="match_stats_level">
+          <p>Level {level}</p>
+        </div>
+        <div className="match_stats_cs">{cs} CS</div>
+        <div className="match_stats_p_kills">
+          P/Kill {((kills + assists) / totalKills).toFixed(2) * 100}%
+        </div>
+      </div>
+      <div className="match_items">
+        <div className="match_equip">
+          <div className="match_equip_top">
+            <div className="img_container">
+              {items[0] ? <img className="equip_img" src={items[0]} /> : <></>}
+            </div>
+
+            <div className="img_container">
+              {items[1] ? <img className="equip_img" src={items[1]} /> : <></>}
+            </div>
+            <div className="img_container">
+              {items[2] ? <img className="equip_img" src={items[2]} /> : <></>}
+            </div>
+          </div>
+          <div className="match_equip_bottom">
+            <div className="img_container">
+              {items[3] ? <img className="equip_img" src={items[3]} /> : <></>}
+            </div>
+            <div className="img_container">
+              {items[4] ? <img className="equip_img" src={items[4]} /> : <></>}
+            </div>
+            <div className="img_container">
+              {items[5] ? <img className="equip_img" src={items[5]} /> : <></>}
+            </div>
+          </div>
+        </div>
+
+        <div className="match_ornament">
+          <div className="img_container">
+            <Avatar src={ornament} alt="ornament" variant="square" />
+          </div>
+        </div>
+        {allies && enemies ? (
+          <div className="match_teams">
+            <div className="match_allies">
+              {allies?.map((a) => (
+                <div className="match_teams_player">
+                  <Avatar
+                    key={a.summonerName}
+                    src={a.iconUrl}
+                    alt={a.championId}
+                    variant={a.summonerName === summonerName ? "" : "square"}
+                  />
+                  <p className="match_teams_player_name">{a.summonerName}</p>
+                </div>
+              ))}
+            </div>
+            <div className="match_enemies">
+              {enemies?.map((e) => (
+                <div className="match_teams_player">
+                  <Avatar
+                    key={e.summonerName}
+                    src={e.iconUrl}
+                    alt={e.championId}
+                    variant="square"
+                  />
+                  <p className="match_teams_player_name">{e.summonerName}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   ) : (
     <p>No</p>
