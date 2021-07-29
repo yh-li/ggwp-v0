@@ -137,8 +137,10 @@ function Summoner(props) {
             <div className="summoner_header_right">
               <div className="summoner_mastery">
                 <div className="summoner_mastery_msg">
-                  Want a higher tier? Based on your match history, here's our
-                  picks:
+                  {mastery.length > 0
+                    ? "Want a higher tier? Based on your match history, here's our" +
+                      "picks:"
+                    : "We need more data to give pick recommendations"}
                 </div>
 
                 <div className="summoner_mastery_champs">
