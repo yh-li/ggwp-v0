@@ -1,0 +1,89 @@
+.summoner_page {
+  background-color: gainsboro;
+  min-height: 100vh;
+}
+.summoner_header,
+.summoner_header_left,
+.summoner_header_right {
+  display: flex;
+  flex-wrap: wrap;
+}
+.summoner_header {
+  justify-content: space-between;
+}
+.summoner_header_icon {
+  align-items: center;
+  text-align: center;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 10px 0 0 10px;
+}
+.summoner_header_icon_border {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 120px;
+  height: 120px;
+  z-index: 2;
+}
+.summoner_header_icon_profile {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+}
+.summoner_header_icon_level {
+  position: absolute;
+  z-index: 3;
+  top: 98px;
+  left: 37px;
+  width: 44px;
+  height: 24px;
+  padding-top: 3px;
+  line-height: 17px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: Helvetica, AppleSDGothic, "Apple SD Gothic Neo", AppleGothic,
+    Arial, Tahoma;
+  color: #96baff;
+  background: url("https://opgg-static.akamaized.net/images/site/summoner/bg-levelbox.png");
+  text-align: center;
+  align-items: center;
+}
+.summoner_header_stats {
+  font-size: 20px;
+  font-family: Helvetica, AppleSDGothic, "Apple SD Gothic Neo", AppleGothic,
+    Arial, Tahoma;
+  width: 150px;
+  position: relative;
+  margin-left: 10px;
+}
+.summoner_mastery {
+  margin-right: 10px;
+}
+.summoner_mastery_msg {
+  font-family: "Barlow", sans-serif;
+  font-size: 18px;
+  margin: 10px 0;
+}
+.summoner_mastery_champs {
+  display: flex;
+  flex-flow: wrap;
+  background-color: #035397;
+  align-items: center;
+  text-align: center;
+}
+
+.summoner_mastery_champion {
+  padding: 10px;
+}
+.summoner {
+  width: 80vw;
+  min-width: 400px;
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 10px;
+}
