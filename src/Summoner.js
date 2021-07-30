@@ -1,4 +1,3 @@
-import Avatar from "./Components/Avatar";
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "./Components/Header";
@@ -15,16 +14,19 @@ function Summoner(props) {
   const [summonerId, setSummonerId] = useState("");
   const [accountId, setAccoundId] = useState("");
   const [level, setLevel] = useState(1);
+  const [limit, setLimit] = useState(0);
   const [avatar, setAvatar] = useState("");
   const [summonerCaseName, setSummonerCaseName] = useState();
   const [mastery, setMastery] = useState([]);
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState([[]]);
   const [tier, setTier] = useState();
   const location = useLocation();
   useEffect(() => {
     setSummonerName(props.match.params.summoner);
   }, [location]);
-
+  function handleMore() {
+    setLimit(limit + 1);
+  }
   const setSummonerByName = async (summonerName) => {
     try {
       const apiFetch = await fetch(
@@ -35,12 +37,12 @@ function Summoner(props) {
           apiKey
       );
       const summonerJSON = await apiFetch.json();
-      //console.log(summonerJSON.id);
+
       setSummonerCaseName(summonerJSON.name);
       setSummonerId(summonerJSON.id);
       setAccoundId(summonerJSON.accountId);
       setLevel(summonerJSON.summonerLevel);
-      //console.log(summonerJSON);
+
       setAvatar(
         "https://ddragon.leagueoflegends.com/cdn/" +
           version +
@@ -57,12 +59,10 @@ function Summoner(props) {
   };
   useEffect(() => {
     setSummonerByName(summonerName);
-    //console.log(summoner);
   }, [summonerName]);
 
   useEffect(() => {
     if (summonerId) {
-      //console.log(summonerId);
       fetch(
         proxyurl +
           "https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" +
@@ -72,8 +72,7 @@ function Summoner(props) {
       )
         .then((response) => response.json())
         .then((res) => {
-          //console.log(res[0]);
-          setMastery(res.splice(0, 10));
+          setMastery(res.slice(0, 10));
         });
       fetch(
         proxyurl +
@@ -92,7 +91,6 @@ function Summoner(props) {
   }, [summonerId]);
   useEffect(() => {
     //get matches
-    //console.log(accountId);
     fetch(
       proxyurl +
         "https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/" +
@@ -102,11 +100,26 @@ function Summoner(props) {
     )
       .then((response) => response.json())
       .then((res) => {
-        //console.log(res.matches[0]);
-        setMatches([]);
-        setMatches(res.matches.splice(0, 10));
+        setMatches([[]]);
+        setMatches([res.matches.slice(0, 10)]);
       });
   }, [accountId]);
+  useEffect(() => {
+    fetch(
+      proxyurl +
+        "https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/" +
+        accountId +
+        "?api_key=" +
+        apiKey
+    )
+      .then((response) => response.json())
+      .then((res) => {
+        const newMatches = [...matches];
+        newMatches.push(res.matches.slice(limit * 10, limit * 10 + 10));
+        setMatches(newMatches);
+      });
+  }, [limit]);
+
   return (
     <div className="summoner_page">
       <Header />
@@ -140,7 +153,7 @@ function Summoner(props) {
                   {mastery.length > 0
                     ? "Want a higher tier? Based on your match history, here's our" +
                       "picks:"
-                    : "We need more data to give pick recommendations"}
+                    : "We need more data to suggest champion picks."}
                 </div>
 
                 <div className="summoner_mastery_champs">
@@ -163,19 +176,31 @@ function Summoner(props) {
         ) : (
           <p>Summoner Loading...</p>
         )}
-
-        <div className="summoner_matches">
-          {matches ? (
-            matches.map((match) => (
-              <Match
-                summonerName={summonerCaseName}
-                matchId={match.gameId}
-                key={match.gameId}
-              />
-            ))
+        <div className="summoner_match">
+          {matches.length > 0 ? (
+            matches.map((matchArray) => {
+              return (
+                <div className="summoner_matches_batch">
+                  {matchArray ? (
+                    matchArray.map((match) => (
+                      <Match
+                        summonerName={summonerCaseName}
+                        matchId={match.gameId}
+                        key={match.gameId}
+                      />
+                    ))
+                  ) : (
+                    <p>Match Batch Loading...</p>
+                  )}
+                </div>
+              );
+            })
           ) : (
-            <p>Match Records Loading...</p>
+            <></>
           )}
+          <div className="summoner_match_more" onClick={handleMore}>
+            more
+          </div>
         </div>
       </div>
     </div>

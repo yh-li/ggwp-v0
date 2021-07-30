@@ -80,6 +80,11 @@
 .summoner_mastery_champion {
   padding: 10px;
 }
+.summoner_match_more {
+  text-align: center;
+  align-items: center;
+  height: 100px;
+}
 .summoner {
   width: 80vw;
   min-width: 400px;

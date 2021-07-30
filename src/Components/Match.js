@@ -62,7 +62,6 @@ function Match({ matchId, summonerName }) {
     var team200KillsVar = 0;
     if (match) {
       for (let i = 0; i < match.participants.length; i++) {
-        //console.log(match);
         if (match.participants[i].teamId === 100) {
           //fetch champions icon url
           team100.push({
@@ -189,7 +188,6 @@ function Match({ matchId, summonerName }) {
                 "/img/champion/" +
                 champion +
                 ".png";
-              //console.log(team100);
             }
             if (team200Ids.includes(championsJSON.data[champion].key)) {
               team200.filter(
@@ -207,7 +205,6 @@ function Match({ matchId, summonerName }) {
           setTeam200Champ(team200);
           setTeam100Kills(team100KillsVar);
           setTeam200Kills(team200KillsVar);
-          console.log(match.gameMode);
           if (match.gameMode === "ARAM") {
             setMode("ARAM");
           } else if (match.gameMode === "CLASSIC") {
