@@ -30,14 +30,14 @@ export default function Header() {
                 Stay Home
               </Link>
             </Button>
-            {/*             <Button color="inherit">
+            <Button color="inherit">
               <Link
                 to="/champions"
                 style={{ color: "inherit", textDecoration: "inherit" }}
               >
                 Champion
               </Link>
-            </Button> */}
+            </Button>
           </div>
           <div className="header_right">
             <Typography variant="h6" className="header_language">

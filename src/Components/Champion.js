@@ -40,13 +40,13 @@ function Champion({ id }) {
     }
   };
   useEffect(() => {
-    setChampionById(id);
+    setChampionById(parseInt(id));
     //console.log(summoner);
   }, []);
 
   return (
     <div>
-      <img alt="champion" src={thumbnail} className="champ-icon" />
+      <img alt="champion" src={thumbnail} className="champ_icon" />
     </div>
   );
 }

@@ -21,7 +21,7 @@ function Home() {
     }
   };
   return (
-    <div>
+    <div className="home_page">
       <Header />
       <div className="home_search">
         <TextField

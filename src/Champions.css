@@ -1,0 +1,15 @@
+.champions_page {
+  background-color: gainsboro;
+}
+.champions_map {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: auto;
+}
+
+.champ_icon {
+  margin: 20px;
+  width: 100px;
+  border-radius: 0%;
+}
