@@ -9,7 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { Link } from "react-router-dom";
 
 const proxyurl = "https://api.allorigins.win/raw?url=";
-function Match({ matchId, summonerName }) {
+function Match({ matchId, summonerName, onWin }) {
   //fetch match!!
   const [allies, setAllies] = useState();
   const [assists, setAssists] = useState();
@@ -42,6 +42,7 @@ function Match({ matchId, summonerName }) {
   const [team200Kills, setTeam200Kills] = useState();
   const [totalKills, setTotalKills] = useState();
   const [win, setWin] = useState();
+
   useEffect(() => {
     fetch(
       proxyurl +
@@ -393,6 +394,11 @@ function Match({ matchId, summonerName }) {
         });
     }
   }, [spellD, spellF]);
+  useEffect(() => {
+    if (win) {
+      onWin();
+    }
+  }, [win]);
   return match ? (
     <div
       className="match"

@@ -6,6 +6,7 @@ import "./Summoner.css";
 import Champion from "./Components/Champion";
 import Match from "./Components/Match";
 import { Link, useLocation } from "react-router-dom";
+import PieChart from "./Components/PieChart";
 const proxyurl = "https://api.allorigins.win/raw?url=";
 
 function Summoner(props) {
@@ -21,11 +22,15 @@ function Summoner(props) {
   const [matches, setMatches] = useState([[]]);
   const [tier, setTier] = useState();
   const location = useLocation();
+  const [wins, setWins] = useState(0);
   useEffect(() => {
     setSummonerName(props.match.params.summoner);
   }, [location]);
   function handleMore() {
     setLimit(limit + 1);
+  }
+  function handleWin() {
+    setWins(wins + 1);
   }
   const setSummonerByName = async (summonerName) => {
     try {
@@ -119,10 +124,18 @@ function Summoner(props) {
         setMatches(newMatches);
       });
   }, [limit]);
-
+  useEffect(() => {
+    //console.log(wins);
+  }, [wins]);
   return (
     <div className="summoner_page">
       <Header />
+      <PieChart
+        data={[
+          { name: "win", value: wins },
+          { name: "lose", value: (limit + 1) * 10 - wins },
+        ]}
+      />
       <div className="summoner">
         {found ? (
           <div className="summoner_header">
@@ -180,12 +193,13 @@ function Summoner(props) {
           {matches.length > 0 ? (
             matches.map((matchArray) => {
               return (
-                <div className="summoner_matches_batch">
+                <div className="summoner_matches_batch" key={matchArray}>
                   {matchArray ? (
                     matchArray.map((match) => (
                       <Match
                         summonerName={summonerCaseName}
                         matchId={match.gameId}
+                        onWin={handleWin}
                         key={match.gameId}
                       />
                     ))
