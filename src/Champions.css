@@ -8,8 +8,8 @@
   margin: auto;
 }
 
-.champ_icon {
-  margin: 20px;
+.champions_map_icon .champ_icon {
+  padding: 20px;
   width: 100px;
   border-radius: 0%;
 }
