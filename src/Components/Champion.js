@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Champion.css";
 
 import { version } from "../credentials";
-function Champion({ id }) {
+function Champion({ id, width }) {
   //get the name!
   const [thumbnail, setThumbnail] = useState(
     "https://ddragon.leagueoflegends.com/cdn/" +
@@ -46,7 +46,13 @@ function Champion({ id }) {
 
   return (
     <div>
-      <img alt="champion" src={thumbnail} className="champ_icon" />
+      <img
+        alt="champion"
+        src={thumbnail}
+        className="champ_icon"
+        width={width}
+        height={width}
+      />
     </div>
   );
 }

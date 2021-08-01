@@ -2,14 +2,34 @@
   background-color: gainsboro;
   min-height: 100vh;
 }
-.summoner_header,
-.summoner_header_left,
-.summoner_header_right {
-  display: flex;
-  flex-wrap: wrap;
+.summoner {
+  width: 80vw;
+  min-width: 400px;
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 10px;
 }
 .summoner_header {
-  justify-content: space-between;
+  width: 100%;
+  display: flex;
+}
+.summoner_header_left {
+  margin-left: 10px;
+  padding-top: 25px;
+  width: 130px;
+  text-align: center;
+}
+.summoner_header_name {
+  margin-left: 10px;
+  text-align: center;
+}
+.summoner_header_middle {
+  width: 150px;
+}
+.summoner_header_right {
+  min-width: 0px;
+  flex-grow: 1;
+  margin-left: 90px;
 }
 .summoner_header_icon {
   align-items: center;
@@ -85,10 +105,7 @@
   align-items: center;
   height: 100px;
 }
-.summoner {
-  width: 80vw;
-  min-width: 400px;
-  max-width: 1200px;
-  margin: auto;
-  margin-top: 10px;
+
+.pie_chart {
+  transition: 100s;
 }

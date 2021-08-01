@@ -395,10 +395,10 @@ function Match({ matchId, summonerName, onWin }) {
     }
   }, [spellD, spellF]);
   useEffect(() => {
-    if (win) {
-      onWin();
+    if (win && championName) {
+      onWin(championName);
     }
-  }, [win]);
+  }, [win, championName]);
   return match ? (
     <div
       className="match"

@@ -1,0 +1,17 @@
+.mastery_block {
+  width: 100%;
+}
+.mastery_block_champs {
+  width: 99%;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  text-align: center;
+}
+.mastery_block_champs_icon {
+  width: 10%;
+}
+.mastery_block_msg {
+  text-align: center;
+}
