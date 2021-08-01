@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 .summoner_page {
   background-color: gainsboro;
   min-height: 100vh;
@@ -8,6 +11,7 @@
   max-width: 1200px;
   margin: auto;
   margin-top: 10px;
+  font-family: "Roboto", sans-serif;
 }
 .summoner_header {
   width: 100%;
@@ -15,22 +19,31 @@
 }
 .summoner_header_left {
   margin-left: 10px;
-  padding-top: 25px;
+  padding-top: 20px;
   width: 130px;
   text-align: center;
 }
+.summoner_header_left_bottom {
+  width: 150px;
+  height: 150px;
+  margin-left: -5px;
+  margin-top: -10px;
+}
 .summoner_header_name {
   margin-left: 10px;
+  margin-top: 5px;
   text-align: center;
+  font-family: "EB Garamond", serif;
 }
-.summoner_header_middle {
-  width: 150px;
-}
+
 .summoner_header_right {
   min-width: 0px;
   flex-grow: 1;
   margin-left: 90px;
+  display: flex;
+  align-items: center;
 }
+
 .summoner_header_icon {
   align-items: center;
   text-align: center;
@@ -84,28 +97,17 @@
 .summoner_mastery {
   margin-right: 10px;
 }
-.summoner_mastery_msg {
-  font-family: "Barlow", sans-serif;
-  font-size: 18px;
-  margin: 10px 0;
-}
-.summoner_mastery_champs {
-  display: flex;
-  flex-flow: wrap;
-  background-color: #035397;
-  align-items: center;
+.summoner_header_right_play_more_msg {
+  margin: auto;
   text-align: center;
+  font-size: 3.5rem;
+  font-family: "Pacifico", cursive;
+  color: #00c1d4;
 }
 
-.summoner_mastery_champion {
-  padding: 10px;
-}
 .summoner_match_more {
   text-align: center;
   align-items: center;
-  height: 100px;
-}
-
-.pie_chart {
-  transition: 100s;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

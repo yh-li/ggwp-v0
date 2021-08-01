@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import Header from "./Components/Header";
 import { version, apiKey } from "./credentials";
 import "./Summoner.css";
-import Champion from "./Components/Champion";
 import Match from "./Components/Match";
-import { Link, useLocation } from "react-router-dom";
-import PieChart from "./Components/PieChart";
+import { useLocation } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import WinRatePieChart from "./Components/WinRatePieChart";
 import MasteryBarChart from "./Components/MasteryBarChart";
 const proxyurl = "https://api.allorigins.win/raw?url=";
 
@@ -24,6 +25,7 @@ function Summoner(props) {
   const [parsedMastery, setParsedMastery] = useState([]);
   const [tier, setTier] = useState();
   const [wins, setWins] = useState(0);
+  const [loses, setLoses] = useState(0);
   const location = useLocation();
   //first need to set summoner's name
   //function to set summoner by summoner name
@@ -66,6 +68,7 @@ function Summoner(props) {
     //and level, and avatar
     setSummonerByName(summonerName);
     setWins(0);
+    setLoses(0);
   }, [summonerName]);
 
   //when summoner id has changed
@@ -182,15 +185,17 @@ function Summoner(props) {
   function handleMore() {
     setLimit(limit + 1);
   }
-  function handleWin(champ) {
-    console.log("A new win as " + champ);
-    setWins(wins + 1);
+  function handleResult(win) {
+    if (win) {
+      setWins(wins + 1);
+    } else {
+      setLoses(loses + 1);
+    }
   }
 
   return (
     <div className="summoner_page">
       <Header />
-
       {/*       <VisxChart
         data={[
           { result: "win", value: wins, color: "#0088FE" },
@@ -214,11 +219,16 @@ function Summoner(props) {
                         tier.toLowerCase() +
                         ".png"
                       }
+                      alt={tier.toLowerCase()}
                     />
                   ) : (
                     <></>
                   )}
-                  <img className="summoner_header_icon_profile" src={avatar} />
+                  <img
+                    className="summoner_header_icon_profile"
+                    src={avatar}
+                    alt={avatar}
+                  />
                   <span className="summoner_header_icon_level">{level}</span>
                 </div>
               </div>
@@ -227,19 +237,30 @@ function Summoner(props) {
                 <div className="summoner_header_name">{summonerCaseName}</div>{" "}
               </div>
               <div className="summoner_header_left_bottom">
-                <PieChart
+                <WinRatePieChart
                   data={[
                     { result: "win", value: wins },
-                    { result: "lose", value: limit * 10 - wins },
+                    { result: "lose", value: loses },
                   ]}
                 />
               </div>
             </div>
 
             <div className="summoner_header_right">
-              <div className="summoner_mastery">
-                <MasteryBarChart mastery={parsedMastery} />
-              </div>
+              {parsedMastery.length > 0 ? (
+                <div className="summoner_mastery">
+                  <MasteryBarChart mastery={parsedMastery} />
+                </div>
+              ) : (
+                /*                   <img
+                    alt="playMore"
+                    src="/image/play_more.jpg"
+                    className="summoner_header_right_play_more"
+                  /> */
+                <div className="summoner_header_right_play_more_msg">
+                  Play more to unlock your mastery scores!
+                </div>
+              )}
             </div>
           </div>
         ) : (
@@ -249,13 +270,20 @@ function Summoner(props) {
           {matches.length > 0 ? (
             matches.map((matchArray) => {
               return (
-                <div className="summoner_matches_batch" key={matchArray}>
+                <div
+                  className="summoner_matches_batch"
+                  key={
+                    matchArray.length > 0
+                      ? "MatchArrayStartsWith".concat(matchArray[0].gameId)
+                      : "EmptyMatchArray"
+                  }
+                >
                   {matchArray ? (
                     matchArray.map((match) => (
                       <Match
                         summonerName={summonerCaseName}
                         matchId={match.gameId}
-                        onWin={handleWin}
+                        onResult={handleResult}
                         key={match.gameId}
                       />
                     ))
@@ -268,8 +296,10 @@ function Summoner(props) {
           ) : (
             <></>
           )}
-          <div className="summoner_match_more" onClick={handleMore}>
-            more
+          <div className="summoner_match_more">
+            <Button color="primary" onClick={handleMore}>
+              more <ExpandMoreIcon />
+            </Button>
           </div>
         </div>
       </div>

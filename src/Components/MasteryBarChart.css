@@ -12,6 +12,10 @@
 .mastery_block_champs_icon {
   width: 10%;
 }
+.mastery_block_champs_icon_active {
+  border-radius: 100%;
+}
+
 .mastery_block_msg {
   text-align: center;
 }

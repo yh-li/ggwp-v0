@@ -5,11 +5,10 @@ import moment from "moment";
 import { apiKey } from "../credentials";
 import "./Match.css";
 import { version } from "../credentials";
-import Avatar from "@material-ui/core/Avatar";
 import { Link } from "react-router-dom";
 
 const proxyurl = "https://api.allorigins.win/raw?url=";
-function Match({ matchId, summonerName, onWin }) {
+function Match({ matchId, summonerName, onResult }) {
   //fetch match!!
   const [allies, setAllies] = useState();
   const [assists, setAssists] = useState();
@@ -395,10 +394,10 @@ function Match({ matchId, summonerName, onWin }) {
     }
   }, [spellD, spellF]);
   useEffect(() => {
-    if (win && championName) {
-      onWin(championName);
+    if (win != undefined && win != null) {
+      onResult(win);
     }
-  }, [win, championName]);
+  }, [win]);
   return match ? (
     <div
       className="match"
@@ -425,28 +424,48 @@ function Match({ matchId, summonerName, onWin }) {
       </div>
       <div iv className="match_sum">
         <div className="match_sum_champion">
-          <img src={championIcon} className="match_sum_champion_icon" />
+          <img
+            src={championIcon}
+            className="match_sum_champion_icon"
+            alt={championIcon}
+          />
           <div className="match_sum_champion_name">{championName}</div>
         </div>
         <div className="match_sum_spells">
           <div className="match_sum_spell">
-            <img src={spellDIcon} className="match_sum_spell_icon" />
+            <img
+              src={spellDIcon}
+              className="match_sum_spell_icon"
+              alt={spellDIcon}
+            />
           </div>
           <div className="match_sum_spell">
-            <img src={spellFIcon} className="match_sum_spell_icon" />
+            <img
+              src={spellFIcon}
+              className="match_sum_spell_icon"
+              alt={spellFIcon}
+            />
           </div>
         </div>
         <div className="match_sum_runes">
           <div className="match_sum_rune">
             {majorRuneIcon ? (
-              <img src={majorRuneIcon} className="match_sum_rune_icon" />
+              <img
+                src={majorRuneIcon}
+                className="match_sum_rune_icon"
+                alt="majorRuneIcon"
+              />
             ) : (
               <></>
             )}
           </div>
           <div className="match_sum_rune">
             {subRuneIcon ? (
-              <img src={subRuneIcon} className="match_sum_rune_icon" />
+              <img
+                src={subRuneIcon}
+                className="match_sum_rune_icon"
+                alt="subRuneIcon"
+              />
             ) : (
               <></>
             )}
@@ -484,32 +503,60 @@ function Match({ matchId, summonerName, onWin }) {
         <div className="match_equip">
           <div className="match_equip_top">
             <div className="img_container">
-              {items[0] ? <img className="equip_img" src={items[0]} /> : <></>}
+              {items[0] ? (
+                <img className="equip_img" src={items[0]} alt="item1" />
+              ) : (
+                <></>
+              )}
             </div>
 
             <div className="img_container">
-              {items[1] ? <img className="equip_img" src={items[1]} /> : <></>}
+              {items[1] ? (
+                <img className="equip_img" src={items[1]} alt="item2" />
+              ) : (
+                <></>
+              )}
             </div>
             <div className="img_container">
-              {items[2] ? <img className="equip_img" src={items[2]} /> : <></>}
+              {items[2] ? (
+                <img className="equip_img" src={items[2]} alt="item3" />
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className="match_equip_bottom">
             <div className="img_container">
-              {items[3] ? <img className="equip_img" src={items[3]} /> : <></>}
+              {items[3] ? (
+                <img className="equip_img" src={items[3]} alt="item4" />
+              ) : (
+                <></>
+              )}
             </div>
             <div className="img_container">
-              {items[4] ? <img className="equip_img" src={items[4]} /> : <></>}
+              {items[4] ? (
+                <img className="equip_img" src={items[4]} alt="item5" />
+              ) : (
+                <></>
+              )}
             </div>
             <div className="img_container">
-              {items[5] ? <img className="equip_img" src={items[5]} /> : <></>}
+              {items[5] ? (
+                <img className="equip_img" src={items[5]} alt="item6" />
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
 
         <div className="match_ornament">
           <div className="img_container">
-            {ornament ? <img className="equip_img" src={ornament} /> : <></>}
+            {ornament ? (
+              <img className="equip_img" src={ornament} alt="ornament" />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>

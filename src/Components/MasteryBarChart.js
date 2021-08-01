@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import Champion from "./Champion";
 import "./MasteryBarChart.css";
 import {
   BarChart,
@@ -19,9 +18,14 @@ export default class MasteryBarChart extends PureComponent {
     activeIndex: -1,
   };
 
-  handleClick = (masteryEntry, index) => {
+  handleEntry = (masteryEntry, index) => {
     this.setState({
       activeIndex: index,
+    });
+  };
+  handleLeave = (masteryEntry, index) => {
+    this.setState({
+      activeIndex: -1,
     });
   };
 
@@ -38,11 +42,15 @@ export default class MasteryBarChart extends PureComponent {
           className="mastery_block_chart"
         >
           <BarChart width="100%" height={40} data={this.props.mastery}>
-            <Bar dataKey="championPoints" onClick={this.handleClick}>
+            <Bar
+              dataKey="championPoints"
+              onMouseEnter={this.handleEntry}
+              onMouseLeave={this.handleLeave}
+            >
               {this.props.mastery.map((entry, index) => (
                 <Cell
                   cursor="pointer"
-                  fill={index === activeIndex ? "#82ca9d" : "#8884d8"}
+                  fill={index === activeIndex ? "#5089c6" : "#001e6c"}
                   key={`cell-${index}`}
                 />
               ))}
@@ -51,9 +59,19 @@ export default class MasteryBarChart extends PureComponent {
         </ResponsiveContainer>
         <div className="mastery_block_champs">
           {this.props.mastery ? (
-            this.props.mastery.map((ms) => (
+            this.props.mastery.map((ms, index) => (
               <div className="mastery_block_champs_icon">
-                <img key={ms.championId} src={ms.championIcon} width="80%" />
+                <img
+                  key={ms.championId}
+                  alt={ms.championId}
+                  src={ms.championIcon}
+                  width={"80%"}
+                  className={
+                    index === activeIndex
+                      ? "mastery_block_champs_icon_active"
+                      : "mastery_block_champs_icon_inactive"
+                  }
+                />
               </div>
             ))
           ) : (
