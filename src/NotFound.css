@@ -1,0 +1,31 @@
+.not_found_page {
+  background-color: gainsboro;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.not_found {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  flex-grow: 1;
+  width: 100%;
+  background-image: url("./void.jpg");
+}
+.not_found_void_msg,
+.not_found_msg_summoner {
+  font-size: 4rem;
+  text-shadow: 2px 2px purple;
+}
+
+.not_found_button_container {
+  width: 150px;
+  margin: 0 auto;
+}
+
+.not_found_button_text {
+  font-size: 0.8rem;
+  font-weight: 900;
+}

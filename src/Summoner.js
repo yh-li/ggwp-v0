@@ -4,9 +4,10 @@ import Header from "./Components/Header";
 import { version, apiKey } from "./credentials";
 import "./Summoner.css";
 import Match from "./Components/Match";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import HomeIcon from "@material-ui/icons/Home";
 import WinRatePieChart from "./Components/WinRatePieChart";
 import MasteryBarChart from "./Components/MasteryBarChart";
 const proxyurl = "https://api.allorigins.win/raw?url=";
@@ -205,8 +206,9 @@ function Summoner(props) {
         valueKey="value"
         colorKey="color"
       /> */}
-      <div className="summoner">
-        {found ? (
+
+      {found ? (
+        <div className="summoner">
           <div className="summoner_header">
             <div className="summoner_header_left">
               <div className="summoner_header_left_top">
@@ -257,52 +259,69 @@ function Summoner(props) {
                     src="/image/play_more.jpg"
                     className="summoner_header_right_play_more"
                   /> */
-                <div className="summoner_header_right_play_more_msg">
-                  Play more to unlock your mastery scores!
+                <div className="summoner_header_right_play_more_msg_container">
+                  <p className="summoer_header_right_play_more_msg">
+                    Play more to unlock your mastery scores!
+                  </p>
                 </div>
               )}
             </div>
           </div>
-        ) : (
-          <p>Summoner Loading...</p>
-        )}
-        <div className="summoner_match">
-          {matches.length > 0 ? (
-            matches.map((matchArray) => {
-              return (
-                <div
-                  className="summoner_matches_batch"
-                  key={
-                    matchArray.length > 0
-                      ? "MatchArrayStartsWith".concat(matchArray[0].gameId)
-                      : "EmptyMatchArray"
-                  }
-                >
-                  {matchArray ? (
-                    matchArray.map((match) => (
-                      <Match
-                        summonerName={summonerCaseName}
-                        matchId={match.gameId}
-                        onResult={handleResult}
-                        key={match.gameId}
-                      />
-                    ))
-                  ) : (
-                    <p>Match Batch Loading...</p>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            <></>
-          )}
-          <div className="summoner_match_more">
-            <Button color="primary" onClick={handleMore}>
-              more <ExpandMoreIcon />
+          <div className="summoner_match">
+            {matches.length > 0 ? (
+              matches.map((matchArray) => {
+                return (
+                  <div
+                    className="summoner_matches_batch"
+                    key={
+                      matchArray.length > 0
+                        ? "MatchArrayStartsWith".concat(matchArray[0].gameId)
+                        : "EmptyMatchArray"
+                    }
+                  >
+                    {matchArray ? (
+                      matchArray.map((match) => (
+                        <Match
+                          summonerName={summonerCaseName}
+                          matchId={match.gameId}
+                          onResult={handleResult}
+                          key={match.gameId}
+                        />
+                      ))
+                    ) : (
+                      <p>Match Batch Loading...</p>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <></>
+            )}
+            <div className="summoner_match_more">
+              <Button color="primary" onClick={handleMore}>
+                more <ExpandMoreIcon />
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="not_found">
+          <p className="not_found_msg_summoner">
+            No summoner matches the entered name...
+          </p>
+
+          <div className="not_found_button_container">
+            <Button color="inherit" className="not_found_button">
+              <Link
+                to="/"
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                <p className="not_found_button_text">go back home</p>
+              </Link>
             </Button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
