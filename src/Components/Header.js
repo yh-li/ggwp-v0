@@ -39,11 +39,11 @@ export default function Header() {
               </Link>
             </Button>
           </div>
-          <div className="header_right">
+          {/*           <div className="header_right">
             <Typography variant="h6" className="header_language">
               English
             </Typography>
-          </div>
+          </div> */}
         </Toolbar>
       </AppBar>
     </div>

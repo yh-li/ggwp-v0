@@ -118,3 +118,13 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.summoner_loading {
+  margin: auto;
+  font-family: "Roboto", sans-serif;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  color: #001e6c;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}

@@ -15,6 +15,7 @@ const proxyurl = "https://api.allorigins.win/raw?url=";
 function Summoner(props) {
   const [summonerName, setSummonerName] = useState(props.match.params.summoner);
   const [found, setFound] = useState();
+  const [loading, setLoading] = useState(true);
   const [summonerId, setSummonerId] = useState("");
   const [accountId, setAccountId] = useState("");
   const [level, setLevel] = useState(1);
@@ -54,11 +55,13 @@ function Summoner(props) {
           ".png"
       );
       setFound(true);
+      setLoading(false);
       setLimit(1);
     } catch (error) {
       console.log("Cannot fetch or parse summoner");
       console.log(error);
       setFound(false);
+      setLoading(false);
     }
   };
   //when summoner name has changed
@@ -304,6 +307,8 @@ function Summoner(props) {
             </div>
           </div>
         </div>
+      ) : loading ? (
+        <div className="summoner_loading">Summoner Data Loading... </div>
       ) : (
         <div className="not_found">
           <p className="not_found_msg_summoner">
