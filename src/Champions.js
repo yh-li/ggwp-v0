@@ -8,8 +8,7 @@ function Champions() {
   const [champions, setChampions] = useState({});
   useEffect(() => {
     fetch(
-      proxyurl +
-        "https://ddragon.leagueoflegends.com/cdn/" +
+      "https://ddragon.leagueoflegends.com/cdn/" +
         version +
         "/data/en_US/champion.json"
     )

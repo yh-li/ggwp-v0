@@ -123,8 +123,7 @@ function Summoner(props) {
       const champIdArray = mastery.map((champ) => champ.championId.toString());
       console.log(champIdArray);
       fetch(
-        proxyurl +
-          "https://ddragon.leagueoflegends.com/cdn/" +
+        "https://ddragon.leagueoflegends.com/cdn/" +
           version +
           "/data/en_US/champion.json"
       )
@@ -168,8 +167,7 @@ function Summoner(props) {
       setMatches([[]]);
     } else {
       fetch(
-        proxyurl +
-          "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/" +
+        "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/" +
           puuId +
           "/ids?" +
           "start=" +
