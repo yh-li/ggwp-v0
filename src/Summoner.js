@@ -1,17 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "./Components/Header";
-//import { version, apiKey } from "./credentials";
+//import { version, apiKey } from "./.env";
 import "./Summoner.css";
 import Match from "./Components/Match";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import HomeIcon from "@material-ui/icons/Home";
 import WinRatePieChart from "./Components/WinRatePieChart";
 import MasteryBarChart from "./Components/MasteryBarChart";
 const proxyurl = "https://api.allorigins.win/raw?url=";
-
+const version = process.env.version;
+const apiKey = process.env.apiKey;
 function Summoner(props) {
   const [summonerName, setSummonerName] = useState(props.match.params.summoner);
   const [found, setFound] = useState();

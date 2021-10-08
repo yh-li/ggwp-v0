@@ -6,9 +6,10 @@ import moment from "moment";
 import "./Match.css";
 //import { version } from "../credentials";
 import { Link } from "react-router-dom";
-import { ContactSupportOutlined } from "@material-ui/icons";
 
 const proxyurl = "https://api.allorigins.win/raw?url=";
+const version = process.env.version;
+const apiKey = process.env.apiKey;
 function Match({ matchId, summonerName, onResult }) {
   //fetch match!!
   const [allies, setAllies] = useState();

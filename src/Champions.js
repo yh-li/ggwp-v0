@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import Champion from "./Components/Champion";
-//import { version } from "./credentials";
+import { version } from "/.env";
 import "./Champions.css";
 const proxyurl = "https://api.allorigins.win/raw?url=";
 function Champions() {

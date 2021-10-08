@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Champion.css";
-
+const version = process.env.version;
+const apiKey = process.env.apiKey;
 //import { version } from "../credentials";
 function Champion({ id, width }) {
   //get the name!
