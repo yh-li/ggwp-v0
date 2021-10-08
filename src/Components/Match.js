@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Moment from "react-moment";
 import moment from "moment";
-import { apiKey } from "../credentials";
+//import { apiKey } from "../credentials";
 import "./Match.css";
-import { version } from "../credentials";
+//import { version } from "../credentials";
 import { Link } from "react-router-dom";
 import { ContactSupportOutlined } from "@material-ui/icons";
 

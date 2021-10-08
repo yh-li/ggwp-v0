@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Champion.css";
 
-import { version } from "../credentials";
+//import { version } from "../credentials";
 function Champion({ id, width }) {
   //get the name!
   const [thumbnail, setThumbnail] = useState(

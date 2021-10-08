@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "./Components/Header";
-import { version, apiKey } from "./credentials";
+//import { version, apiKey } from "./credentials";
 import "./Summoner.css";
 import Match from "./Components/Match";
 import { Link, useLocation } from "react-router-dom";
