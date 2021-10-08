@@ -9,9 +9,11 @@ import { Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import WinRatePieChart from "./Components/WinRatePieChart";
 import MasteryBarChart from "./Components/MasteryBarChart";
+import "dotenv";
 const proxyurl = "https://api.allorigins.win/raw?url=";
-const version = process.env.version;
-const apiKey = process.env.apiKey;
+const version = process.env.REACT_APP_version;
+const apiKey = process.env.REACT_APP_apiKey;
+
 function Summoner(props) {
   const [summonerName, setSummonerName] = useState(props.match.params.summoner);
   const [found, setFound] = useState();

@@ -8,8 +8,8 @@ import "./Match.css";
 import { Link } from "react-router-dom";
 
 const proxyurl = "https://api.allorigins.win/raw?url=";
-const version = process.env.version;
-const apiKey = process.env.apiKey;
+const version = process.env.REACT_APP_version;
+const apiKey = process.env.REACT_APP_apiKey;
 function Match({ matchId, summonerName, onResult }) {
   //fetch match!!
   const [allies, setAllies] = useState();

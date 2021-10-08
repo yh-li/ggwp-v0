@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Champion.css";
-const version = process.env.version;
-const apiKey = process.env.apiKey;
+
 //import { version } from "../credentials";
+const version = process.env.REACT_APP_version;
 function Champion({ id, width }) {
   //get the name!
   const [thumbnail, setThumbnail] = useState(

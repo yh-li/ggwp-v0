@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import Champion from "./Components/Champion";
-import { version } from "/.env";
 import "./Champions.css";
 const proxyurl = "https://api.allorigins.win/raw?url=";
+const version = process.env.REACT_APP_version;
 function Champions() {
   const [champions, setChampions] = useState({});
   useEffect(() => {

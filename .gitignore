@@ -5,7 +5,6 @@
 /.pnp
 .pnp.js
 /src/credentials.js
-/src/.env
 /.env
 # testing
 /coverage
