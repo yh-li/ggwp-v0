@@ -6,6 +6,7 @@ import { apiKey } from "../credentials";
 import "./Match.css";
 import { version } from "../credentials";
 import { Link } from "react-router-dom";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 const proxyurl = "https://api.allorigins.win/raw?url=";
 function Match({ matchId, summonerName, onResult }) {
@@ -45,14 +46,14 @@ function Match({ matchId, summonerName, onResult }) {
   useEffect(() => {
     fetch(
       proxyurl +
-        "https://na1.api.riotgames.com/lol/match/v4/matches/" +
+        "https://americas.api.riotgames.com/lol/match/v5/matches/" +
         matchId +
         "?api_key=" +
         apiKey
     )
       .then((response) => response.json())
       .then((res) => {
-        setMatch(res);
+        setMatch(res.info);
       });
   }, []);
   useEffect(() => {
@@ -60,83 +61,51 @@ function Match({ matchId, summonerName, onResult }) {
     const team200 = [];
     var team100KillsVar = 0;
     var team200KillsVar = 0;
+    console.log("MATCH:");
+    console.log(match);
     if (match) {
       for (let i = 0; i < match.participants.length; i++) {
         if (match.participants[i].teamId === 100) {
           //fetch champions icon url
           team100.push({
-            summonerName: match.participantIdentities[i].player.summonerName,
+            summonerName: match.participants[i].summonerName,
             championId: match.participants[i].championId,
           });
-          team100KillsVar += match.participants[i].stats.kills;
+          team100KillsVar += match.participants[i].kills;
         } else {
           team200.push({
-            summonerName: match.participantIdentities[i].player.summonerName,
+            summonerName: match.participants[i].summonerName,
             championId: match.participants[i].championId,
           });
-          team200KillsVar += match.participants[i].stats.kills;
+          team200KillsVar += match.participants[i].kills;
         }
         if (
-          match.participantIdentities[i].player.summonerName.toUpperCase() ===
+          match.participants[i].summonerName.toUpperCase() ===
           summonerName.toUpperCase()
         ) {
           setTeam(match.participants[i].teamId);
-          setWin(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.win
-          );
-          setChampionId(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .championId
-          );
+          setWin(match.participants[i].win);
+          setChampionId(match.participants[i].championId);
           //needs to fetch icons
           setMajorRune(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.perk0
+            match.participants[i].perks.styles[0].selections[0].perk
           );
-          setMajorRuneSys(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.perkPrimaryStyle
-          );
-          setSubRuneSys(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.perkSubStyle
-          );
-          setSpellD(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .spell1Id
-          );
-          setSpellF(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .spell2Id
-          );
-          setKills(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.kills
-          );
-          setAssists(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.assists
-          );
-          setDeaths(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.deaths
-          );
-          setLevel(
-            match.participants[match.participantIdentities[i].participantId - 1]
-              .stats.champLevel
-          );
+          setMajorRuneSys(match.participants[i].perks.styles[0].style);
+          setSubRuneSys(match.participants[i].perks.styles[1].style);
+          setSpellD(match.participants[i].summoner1Id);
+          setSpellF(match.participants[i].summoner2Id);
+          setKills(match.participants[i].kills);
+          setAssists(match.participants[i].assists);
+          setDeaths(match.participants[i].deaths);
+          setLevel(match.participants[i].champLevel);
           setCs(
-            match.participants[i].stats.totalMinionsKilled +
-              match.participants[i].stats.neutralMinionsKilled
+            match.participants[i].totalMinionsKilled +
+              match.participants[i].neutralMinionsKilled
           );
           const itemUrls = [];
           for (let j = 0; j < 6; j++) {
             const itemKey = "item".concat(j.toString());
-            const itemId =
-              match.participants[
-                match.participantIdentities[i].participantId - 1
-              ].stats[itemKey];
+            const itemId = match.participants[i][itemKey];
             if (itemId !== 0) {
               itemUrls.push(
                 "https://ddragon.leagueoflegends.com/cdn/" +
@@ -150,12 +119,12 @@ function Match({ matchId, summonerName, onResult }) {
             }
           }
           setItems(itemUrls);
-          if (match.participants[i].stats.item6 !== 0) {
+          if (match.participants[i].item6 !== 0) {
             setOrnament(
               "https://ddragon.leagueoflegends.com/cdn/" +
                 version +
                 "/img/item/" +
-                match.participants[i].stats.item6.toString() +
+                match.participants[i].item6.toString() +
                 ".png"
             );
           }

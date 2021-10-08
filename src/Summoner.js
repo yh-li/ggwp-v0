@@ -18,6 +18,7 @@ function Summoner(props) {
   const [loading, setLoading] = useState(true);
   const [summonerId, setSummonerId] = useState("");
   const [accountId, setAccountId] = useState("");
+  const [puuId, setPuuid] = useState("");
   const [level, setLevel] = useState(1);
   const [limit, setLimit] = useState(0);
   const [avatar, setAvatar] = useState("");
@@ -46,7 +47,7 @@ function Summoner(props) {
       setSummonerId(summonerJSON.id);
       setAccountId(summonerJSON.accountId);
       setLevel(summonerJSON.summonerLevel);
-
+      setPuuid(summonerJSON.puuid);
       setAvatar(
         "https://ddragon.leagueoflegends.com/cdn/" +
           version +
@@ -153,17 +154,32 @@ function Summoner(props) {
   }, [mastery]);
   //when limit has changed, we need to set matches too
   useEffect(() => {
+    console.log(matches);
+  }, [matches]);
+  useEffect(() => {
     console.log("Limit has changed to " + limit);
     if (limit === 0) {
       console.log("This causes a match reload. We need to find only 10.");
       console.log("We empty the matches first.");
       setMatches([[]]);
     } else {
-      fetch(
+      console.log(
         proxyurl +
-          "https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/" +
-          accountId +
-          "?api_key=" +
+          "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/" +
+          puuId +
+          "/ids?start=" +
+          (limit - 1) * 10 +
+          "&count=10&api_key=" +
+          apiKey
+      );
+      fetch(
+        "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/" +
+          puuId +
+          "/ids?" +
+          "start=" +
+          (limit - 1) * 10 +
+          "&count=10&" +
+          "api_key=" +
           apiKey
       )
         .then((response) => response.json())
@@ -171,8 +187,11 @@ function Summoner(props) {
           console.log(
             "This is a request for more data. We still have the same summoner."
           );
+          console.log("***********************************");
+          console.log(res);
+
           const newMatches = [...matches];
-          newMatches.push(res.matches.slice((limit - 1) * 10, limit * 10));
+          newMatches.push(res);
           console.log("We pushed new matches to existing matches");
           setMatches(newMatches);
           //console.log(matches);
@@ -286,9 +305,9 @@ function Summoner(props) {
                       matchArray.map((match) => (
                         <Match
                           summonerName={summonerCaseName}
-                          matchId={match.gameId}
+                          matchId={match}
                           onResult={handleResult}
-                          key={match.gameId}
+                          key={match}
                         />
                       ))
                     ) : (
