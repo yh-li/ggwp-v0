@@ -3,6 +3,7 @@ import "./Champion.css";
 
 //import { version } from "../credentials";
 const version = process.env.REACT_APP_version;
+const proxyurl = "https://api.allorigins.win/raw?url=";
 function Champion({ id, width }) {
   //get the name!
   const [thumbnail, setThumbnail] = useState(
@@ -13,6 +14,7 @@ function Champion({ id, width }) {
       ".png"
   );
   const allChampionsUrl =
+    proxyurl +
     "https://ddragon.leagueoflegends.com/cdn/" +
     version +
     "/data/en_US/champion.json";

@@ -37,7 +37,8 @@ function Summoner(props) {
   const setSummonerByName = async (summonerName) => {
     try {
       const apiFetch = await fetch(
-        "https://api.allorigins.win/raw?url=" +
+        proxyurl +
+          "https://api.allorigins.win/raw?url=" +
           "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" +
           summonerName +
           "?api_key=" +
@@ -122,7 +123,8 @@ function Summoner(props) {
       const champIdArray = mastery.map((champ) => champ.championId.toString());
       console.log(champIdArray);
       fetch(
-        "https://ddragon.leagueoflegends.com/cdn/" +
+        proxyurl +
+          "https://ddragon.leagueoflegends.com/cdn/" +
           version +
           "/data/en_US/champion.json"
       )
@@ -165,17 +167,9 @@ function Summoner(props) {
       console.log("We empty the matches first.");
       setMatches([[]]);
     } else {
-      console.log(
+      fetch(
         proxyurl +
           "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/" +
-          puuId +
-          "/ids?start=" +
-          (limit - 1) * 10 +
-          "&count=10&api_key=" +
-          apiKey
-      );
-      fetch(
-        "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/" +
           puuId +
           "/ids?" +
           "start=" +
