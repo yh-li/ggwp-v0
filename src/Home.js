@@ -16,7 +16,7 @@ function Home() {
     if (summoner.trim() === "") setSummoner("");
     else {
       //get the route
-
+      //navigate to the summoner's page
       history.push(`/summoners/${summoner}`);
     }
   };

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
 import Header from "./Components/Header";
 //import { version, apiKey } from "./.env";
 import "./Summoner.css";
@@ -15,6 +16,7 @@ const version = process.env.REACT_APP_version;
 const apiKey = process.env.REACT_APP_apiKey;
 
 function Summoner(props) {
+  //nothing changed
   const [summonerName, setSummonerName] = useState(props.match.params.summoner);
   const [found, setFound] = useState();
   const [loading, setLoading] = useState(true);
@@ -32,6 +34,10 @@ function Summoner(props) {
   const [wins, setWins] = useState(0);
   const [loses, setLoses] = useState(0);
   const location = useLocation();
+  const winRatePieCharAniProps = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+  });
   //first need to set summoner's name
   //function to set summoner by summoner name
   const setSummonerByName = async (summonerName) => {
@@ -213,15 +219,6 @@ function Summoner(props) {
   return (
     <div className="summoner_page">
       <Header />
-      {/*       <VisxChart
-        data={[
-          { result: "win", value: wins, color: "#0088FE" },
-          { result: "lose", value: limit * 10 - wins, color: "#FF8042" },
-        ]}
-        labelKey="result"
-        valueKey="value"
-        colorKey="color"
-      /> */}
 
       {found ? (
         <div className="summoner">

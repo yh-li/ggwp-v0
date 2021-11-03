@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./Home";
 import Summoner from "./Summoner";
 import NotFound from "./NotFound";
+import Game from "./Game";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         {/* <Route exact path="/summoner" component={Summoner} /> */}
         <Route exact path="/summoners/:summoner" component={Summoner} />
         <Route exact path="/" component={Home} />
+        <Route exact path="/game" component={Game} />
         <Route component={NotFound} />
       </Switch>
     </Router>
